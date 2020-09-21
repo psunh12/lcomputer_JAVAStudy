@@ -20,10 +20,13 @@ public class UserService {
 		return service;
 	}
 	
-	public ArrayList<User> getUsers(){
-		return dao.getUsers();
+	public ArrayList<User> getUsers(int page){
+		return dao.getUsers(page);
 	}
 	public void insertUser(User user) {
 		dao.insertUser(user);
+	}
+	public int getUsersCount() {
+		return dao.getUsersCount();
 	}
 }	

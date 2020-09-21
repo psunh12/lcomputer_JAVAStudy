@@ -12,9 +12,7 @@ import com.lcomputerstudy.testmvc.service.UserService;
 import com.lcomputerstudy.testmvc.vo.User;
 
 @WebServlet("*.do")
-
-
-public class controller extends HttpServlet {
+public class Controller extends HttpServlet {
 	private static final long serialVersionUID=1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -31,12 +29,23 @@ public class controller extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		
+		int usercount=0;
+		int page=1;
+		
 		switch(command) {
-			case "/user-list.do":
+			case "/user/user-list.do":
+				String reqPage = request.getParameter("page");
+				if (reqPage != null) {
+					page = Integer.parseInt(reqPage);
+					page = (page-1)*3;
+				}
 				UserService userService = UserService.getInstance();
-				ArrayList<User> list = userService.getUsers();
-				view="user/list";
-				request.setAttribute("user-list",list);
+				ArrayList<User> list = userService.getUsers(page);
+				usercount=userService.getUsersCount();
+				request.setAttribute("list",list);
+				request.setAttribute("usercount",usercount);
+				
+				view = "/user/list";
 				break;
 			
 			case "/user-insert.do":
