@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.lcomputerstudy.testmvc.service.UserService;
+import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.User;
 
 @WebServlet("*.do")
@@ -29,21 +30,23 @@ public class Controller extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		
-		int usercount=0;
 		int page=1;
+		
+		response.setContentType("text/html; charset=utf-8");
+		request.setCharacterEncoding("utf-8");
 		
 		switch(command) {
 			case "/user/user-list.do":
 				String reqPage = request.getParameter("page");
 				if (reqPage != null) {
 					page = Integer.parseInt(reqPage);
-					page = (page-1)*3;
 				}
 				UserService userService = UserService.getInstance();
 				ArrayList<User> list = userService.getUsers(page);
-				usercount=userService.getUsersCount();
-				request.setAttribute("list",list);
-				request.setAttribute("usercount",usercount);
+				Pagination pagination =new Pagination(page);
+				
+				request.setAttribute("userList",list);
+				request.setAttribute("pagination",pagination);
 				
 				view = "/user/list";
 				break;

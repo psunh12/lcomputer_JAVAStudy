@@ -37,8 +37,8 @@ public class UserDAO {
 					.append("LIMIT    ?,3\n")
 					.toString();
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, page);
-			pstmt.setInt(2, page);
+			pstmt.setInt(1, pageNum);
+			pstmt.setInt(2, pageNum);
 			rs = pstmt.executeQuery();
 			list = new ArrayList<User>();
 			
