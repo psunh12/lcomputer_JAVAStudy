@@ -3,6 +3,7 @@ package com.lcomputerstudy.testmvc.service;
 import java.util.ArrayList;
 import com.lcomputerstudy.testmvc.dao.UserDAO;
 import com.lcomputerstudy.testmvc.vo.User;
+import com.lcomputerstudy.testmvc.vo.Board;
 
 public class UserService {
 
@@ -32,4 +33,9 @@ public class UserService {
 	public User loginUser(String idx, String pw) {
 		return dao.loginUser(idx, pw);
 	}
-}	
+	public void insertBoard(Board board) {
+		dao.insertBoard(board);
+	}
+
+}
+	

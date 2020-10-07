@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.lcomputerstudy.testmvc.service.UserService;
 import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.User;
+import com.lcomputerstudy.testmvc.vo.Board;
 
 @WebServlet("*.do")
 public class Controller extends HttpServlet {
@@ -23,6 +24,7 @@ public class Controller extends HttpServlet {
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
 		
 		String requestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
@@ -31,31 +33,25 @@ public class Controller extends HttpServlet {
 		String idx=null;
 		String pw = null;
 		command = checkSession(request, response, command);
-		
-		
-		
-		response.setContentType("text/html;charset=utf-8");
-		request.setCharacterEncoding("utf-8");
-		
+
 		int page=1;
-		
-		response.setContentType("text/html; charset=utf-8");
-		request.setCharacterEncoding("utf-8");
+		UserService userService = null;
+		BoardService boardService = null;
 		
 		switch(command) {
-			case "/user/user-list.do":
+			case "/user-list.do":
 				String reqPage = request.getParameter("page");
 				if (reqPage != null) {
 					page = Integer.parseInt(reqPage);
 				}
-				UserService userService = UserService.getInstance();
+				userService = UserService.getInstance();
 				ArrayList<User> list = userService.getUsers(page);
 				Pagination pagination =new Pagination(page);
 				
 				request.setAttribute("userList",list);
 				request.setAttribute("pagination",pagination);
 				
-				view = "/user/list";
+				view = "user/list";
 				break;
 			
 			case "/user-insert.do":
@@ -105,10 +101,34 @@ public class Controller extends HttpServlet {
 			case "/access-denied.do":
 				view = "user/access-denied";
 				break;
+				
+			case "/user-write-process.do":
+				Board board = new Board();
+				board.setB_title(request.getParameter("title"));
+				board.setB_content(request.getParameter("content"));
+				board.setB_writer(request.getParameter("writer"));
+				board.setU_idx(request.getParameter("u_idx"));
+				//board.setB_date(request.getParameter("date"));
+				
+				userService = UserService.getInstance();
+				userService.insertBoard(board);
+				
+				view = "user/write-result";
+				break;
+				
+			case "/write.do":
+				view="user/write";
+				break;
+				
+			case "/write-list.do":
+				boardService = BoardService.getInstance();
+				ArrayList<Board> list = boardService.getBoards();
+				view="user/write-list";
+				request.setAttribute("list",list);
+				break;	
+				
 		}
-		
-		
-		
+			
 		
 		RequestDispatcher rd = request.getRequestDispatcher(view+".jsp");
 		rd.forward(request, response);
@@ -126,6 +146,7 @@ String checkSession(HttpServletRequest request, HttpServletResponse response, St
 			,"/user-edit.do"
 			,"/user-edit-process.do"
 			,"/logout.do"
+			,"/write.do"
 	};
 	for (String item : authList) {
 		if(item.equals(command)) {

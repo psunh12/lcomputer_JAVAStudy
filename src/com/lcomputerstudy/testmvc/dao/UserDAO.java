@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import com.lcomputerstudy.testmvc.database.DBConnection;
 import com.lcomputerstudy.testmvc.vo.User;
-
+import com.lcomputerstudy.testmvc.vo.Board;
 
 public class UserDAO {
 	private static UserDAO dao= null;
@@ -149,5 +149,34 @@ public class UserDAO {
 			}
 		}
 		return user;
+		}
+	
+	public void insertBoard(Board board) {
+		Connection conn =null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "insert into board(u_idx,b_title,b_content,b_writer,b_date) values(?,?,?,?, now())";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getU_idx());
+			pstmt.setString(2, board.getB_title());
+			pstmt.setString(3, board.getB_content());
+			pstmt.setString(4,board.getB_writer());
+			// pstmt.setString(5, board.getB_date());
+			
+			pstmt.executeUpdate();
+		}catch(Exception ex) {
+			System.out.println("SQLException : "+ex.getMessage());
+		} finally {
+			try {
+				if(pstmt !=null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-}
+		
+	}
+
