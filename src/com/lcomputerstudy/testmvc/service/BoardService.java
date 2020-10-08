@@ -23,5 +23,7 @@ public class BoardService {
 		return dao.getBoards();
 	}
 	
-
+	public int getBoardsCount() {
+		return dao.getBoardsCount();
+	}
 }

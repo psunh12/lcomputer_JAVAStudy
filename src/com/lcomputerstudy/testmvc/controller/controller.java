@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.lcomputerstudy.testmvc.service.UserService;
+import com.lcomputerstudy.testmvc.service.BoardService;
 import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.User;
 import com.lcomputerstudy.testmvc.vo.Board;
@@ -121,10 +122,16 @@ public class Controller extends HttpServlet {
 				break;
 				
 			case "/write-list.do":
+
 				boardService = BoardService.getInstance();
-				ArrayList<Board> list = boardService.getBoards();
+				ArrayList<Board> list1 = boardService.getBoards();
+				int boardcount=boardService.getBoardsCount();
+				
+				request.setAttribute("list1",list1);
+				request.setAttribute("boardcount",boardcount);
+				
 				view="user/write-list";
-				request.setAttribute("list",list);
+				
 				break;	
 				
 		}

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원목록2</title>
+<title>회원목록</title>
 </head>
 <style>
 	ul{

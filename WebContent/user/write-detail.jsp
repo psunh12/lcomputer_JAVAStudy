@@ -4,8 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시글</title>
 </head>
+<h1>게시글</h1>
+	
 <body>
 
 </body>

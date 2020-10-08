@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,9 +9,13 @@
 </head>
 
 <style>
+	h1{
+		text-align:center;
+	}
 
 	table{
 		border-collapse:collapse;
+		margin:40px auto;
 	}
 	table tr th {
 		font-weight:700;
@@ -25,27 +30,45 @@
 		color:#000;
 		font-weight:700;
 	}
+	
+	ul{
+		width:400px;
+		height:50px;
+		margin:10px;
+		}
+	li{
+		list-style:none;
+		width:50px;
+		line-height:50px;
+		border:1px solid #ededed;
+		float:left;
+		text-align:center;
+		margin:0 5px;
+		border-radius:5px;
+		}	
 </style>
 <body>
 <h1>게시물 목록</h1>
-<form action="write-list.do" name="user" method="post">
-	<table>
-	<tr>
-		<th>No</th>
-		<th>제목</th>
-		<th>작성자</th>
-		<th>날짜</th>
-	</tr>
-	<c:forEach items="${boardList}" var="item" varStatus="status">
-		<tr>
-			<td>${item.b_idx}</td>
-			<td>${item.b_title}</td>
-			<td>${item.b_writer}</td>
-			<td>${item.b_date}</td>	
-		</tr>
-	</c:forEach>
-	</table>
-	</form>
+<table>
+<tr>
+	<td colspan = "4" >전체 게시글 수 : ${boardcount }</td>
+</tr>
+<tr>
+	<th>No</th>
+	<th>제목</th>
+	<th>작성자</th>
+	<th>날짜</th>
+</tr>
 
+<c:forEach items= "${list1}" var="item" varStatus = "status" >
+
+	<tr>
+		<td><a href="board-detail.do?b_idx=${item.b_idx}">${item.b_idx}</a></td>
+		<td>${item.b_title}</td>
+		<td>${item.b_writer}</td>
+		<td>${item.b_date}</td>	
+	</tr>
+</c:forEach>
+</table>
 </body>
 </html>
