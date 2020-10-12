@@ -3,6 +3,7 @@ package com.lcomputerstudy.testmvc.vo;
 
 public class Board {
 	private int b_idx;
+	private int rownum;
 	private String b_title;
 	private String b_writer;
 	private String b_content;
@@ -47,4 +48,11 @@ public class Board {
 	public void setU_idx(String u_idx) {
 		this.u_idx = u_idx;
 	}
+	public int getRownum() {
+		return rownum;
+	}
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}
+	
 }

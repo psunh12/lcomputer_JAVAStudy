@@ -67,7 +67,7 @@
 <h1>회원 목록</h1>
 	<table>
 		<tr>
-			<td colspan="3">전체 회원 수 : ${pagination.userCount}</td>
+			<td colspan="3">전체 회원 수 : ${pagination.totalCount}</td>
 		<tr>
 			<th>No</th>
 			<th>ID</th>
@@ -102,7 +102,7 @@
 				<c:choose>
 					<c:when test="${pagination.page eq i }">
 						<li style="background-color:#ededed;">
-							<span>${i}</span>
+							<a href="user-list.do"></a>
 						</li>
 					</c:when>
 					<c:when test="${pagination.page ne i }">

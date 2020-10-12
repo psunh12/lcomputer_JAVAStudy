@@ -20,21 +20,31 @@ public class BoardDAO {
 		}
 		return dao;
 	}
-	public ArrayList<Board> getBoards(){
+	public ArrayList<Board> getBoards(int page){
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<Board> list = null;
+		int pageNum = (page-1)*3;
 		
 		try {
 			conn = DBConnection.getConnection();
-			String query ="select * from board";
+			String query = new StringBuilder()
+					.append("SELECT  @ROWNUM := @ROWNUM -1 AS ROWNUM,\n")
+					.append("   ta.*\n")
+					.append("FROM   board ta,\n")
+					.append("    (SELECT @rownum := (SELECT COUNT(*)-?+1 FROM board ta)) tb\n")
+					.append("LIMIT   ?,3\n")
+					.toString();
 			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, pageNum);
+			pstmt.setInt(2,pageNum);
 			rs = pstmt.executeQuery();
 			list = new ArrayList<Board>();
 			
 			while(rs.next()) {
 				Board board = new Board();
+				board.setRownum(rs.getInt("ROWNUM"));
 				board.setB_idx(rs.getInt("b_idx"));
 				board.setB_title(rs.getString("b_title"));
 				board.setB_content(rs.getString("b_content"));
@@ -45,9 +55,9 @@ public class BoardDAO {
 						
 					} finally {
 						try {
-							rs.close();
-							pstmt.close();
-							conn.close();
+						if(rs != null)	rs.close();
+						if(pstmt != null)pstmt.close();
+						if(conn != null)	conn.close();
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -82,4 +92,5 @@ public class BoardDAO {
 		}
 		return count;
 	}
+	
 }

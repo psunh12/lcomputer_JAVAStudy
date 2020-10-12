@@ -19,8 +19,8 @@ public class BoardService {
 		}
 		return service;
 	}
-	public ArrayList<Board> getBoards(){
-		return dao.getBoards();
+	public ArrayList<Board> getBoards(int page){
+		return dao.getBoards(page);
 	}
 	
 	public int getBoardsCount() {

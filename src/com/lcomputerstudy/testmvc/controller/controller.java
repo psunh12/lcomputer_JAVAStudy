@@ -46,8 +46,10 @@ public class Controller extends HttpServlet {
 					page = Integer.parseInt(reqPage);
 				}
 				userService = UserService.getInstance();
+				int userCount = userService.getUsersCount();
+				Pagination pagination =new Pagination(page, userCount);
+				userService = UserService.getInstance();
 				ArrayList<User> list = userService.getUsers(page);
-				Pagination pagination =new Pagination(page);
 				
 				request.setAttribute("userList",list);
 				request.setAttribute("pagination",pagination);
@@ -122,14 +124,19 @@ public class Controller extends HttpServlet {
 				break;
 				
 			case "/write-list.do":
-
+				String reqPage2 = request.getParameter("page");
+				if (reqPage2 != null) { 
+					page = Integer.parseInt(reqPage2);
+				}
+				
 				boardService = BoardService.getInstance();
-				ArrayList<Board> list1 = boardService.getBoards();
-				int boardcount=boardService.getBoardsCount();
+				int boardCount = boardService.getBoardsCount();
+				Pagination pagination2 =new Pagination(page, boardCount);
+				
+				ArrayList<Board> list1 = boardService.getBoards(page);
 				
 				request.setAttribute("list1",list1);
-				request.setAttribute("boardcount",boardcount);
-				
+				request.setAttribute("pagination",pagination2);
 				view="user/write-list";
 				
 				break;	
