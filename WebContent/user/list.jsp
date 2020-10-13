@@ -84,12 +84,7 @@
 	<div>
 		<ul>
 			<c:choose>
-				<c:when test="${pagination.prevPage lt 5}">
-					<li style="dysplay:none;">
-						<span>◀</span>
-					</li>
-				</c:when>
-				<c:when test="${pagination.prevPage ge 5 }">
+				<c:when test="${pagination.startPage > pagination.pageUnit }">
 					<li>
 						<a href="user-list.do?page=${pagination.prevPage}">
 							◀
@@ -102,7 +97,7 @@
 				<c:choose>
 					<c:when test="${pagination.page eq i }">
 						<li style="background-color:#ededed;">
-							<a href="user-list.do"></a>
+							<a href="user-list.do">${i}</a>
 						</li>
 					</c:when>
 					<c:when test="${pagination.page ne i }">
@@ -115,16 +110,11 @@
 		
 		
 			<c:choose>
-				<c:when test="${pagination.nextPage lt pagination.lastPage }">
+				<c:when test="${pagination.endPage < pagination.lastPage }">
 					<li style="">
 						<a href="user-list.do?page=${pagination.nextPage }">▶</a>
 					</li>
-				</c:when>							
-				<c:when test="${pagination.nextPage ge pagination.lastPage }">
-					<li style="display:none;">
-						<a href="user-list.do?page=${pagination.nextPage }">▶</a>
-					</li>
-				</c:when>							
+				</c:when>													
 			</c:choose>
 	<%-- <li>
 		<a href="user-list.do?page=${pagination.nextPage}">▶ </a>

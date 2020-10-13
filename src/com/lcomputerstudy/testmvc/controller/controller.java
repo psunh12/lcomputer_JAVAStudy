@@ -161,6 +161,7 @@ String checkSession(HttpServletRequest request, HttpServletResponse response, St
 			,"/user-edit-process.do"
 			,"/logout.do"
 			,"/write.do"
+			,"/write-list.do"
 	};
 	for (String item : authList) {
 		if(item.equals(command)) {
